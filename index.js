@@ -21,7 +21,7 @@ client.on("ready", async (client) => {
 const commands = [
   new SlashCommandBuilder()
     .setName('imageuploadcloudinary')
-    .setDescription('Subir imágenes a Cloudinary')
+    .setDescription('Upload images to Cloudinary')
     .toJSON()
 ];
 
@@ -72,12 +72,12 @@ client.on("interactionCreate", async interaction => {
             if (message.attachments.size > 0) {
               message.attachments.forEach(attachment => {
                 const url = attachment.url;
-                console.log(`URL del archivo adjunto: ${url}`);
+                console.log(`File's URL: ${url}`);
 
                 cloudinary.uploader.upload(url,
                   {
                     public_id: attachment.name.split(".")[0],
-                    folder: 'can'
+                    folder: process.env.FOLDER
                   },
                   function (error, result) { console.log(result); });
               });
@@ -100,7 +100,7 @@ client.on("messageCreate", message => {
   if (message.attachments.size > 0) {
     message.attachments.forEach(attachment => {
       const url = attachment.url;
-      console.log(`URL del archivo adjunto: ${url}`);
+      console.log(`File's URL: ${url}`);
 
       cloudinary.uploader.upload(url,
         {
